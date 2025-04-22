@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Add } from '@mui/icons-material'
+import.meta.env.VITE_API_URL
 
 const Youtubers = ({ setselectedYoutuber }) => {
   const [data, setData] = useState([])
@@ -16,8 +17,8 @@ const Youtubers = ({ setselectedYoutuber }) => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users')
-      setData(res.data)
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/users`)
+        setData(res.data)
     } catch (err) {
       console.log(err)
     }
@@ -42,8 +43,8 @@ const Youtubers = ({ setselectedYoutuber }) => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/users', formData)
-      setFormData({ name: '', yt_channel_name: '', yt_channel_url: '' })
+        await axios.post(`${import.meta.env.VITE_API_URL}/users`, formData)
+        setFormData({ name: '', yt_channel_name: '', yt_channel_url: '' })
       fetchData()
     } catch (err) {
       console.log(err)

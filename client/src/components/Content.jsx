@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { ArrowUpward, ArrowDownward, Add } from '@mui/icons-material'
+import.meta.env.VITE_API_URL
 
 const Content = ({ selectedYoutuber }) => {
   const [data, setData] = useState([])
@@ -16,9 +17,9 @@ const Content = ({ selectedYoutuber }) => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/contents/${selectedYoutuber._id}`)
-      const sortedData = res.data.sort((a, b) => b.votes - a.votes)
-      setData(sortedData)
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/contents/${selectedYoutuber._id}`)
+        const sortedData = res.data.sort((a, b) => b.votes - a.votes)
+        setData(sortedData)
     } catch (err) {
       console.log(err)
     }
@@ -38,8 +39,8 @@ const Content = ({ selectedYoutuber }) => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/contents', {
-        user_id: selectedYoutuber._id,
+        await axios.post(`${import.meta.env.VITE_API_URL}/contents`, {
+            user_id: selectedYoutuber._id,
         ...formData,
       })
       setFormData({ title: '', description: '', votes: 0 })
@@ -51,8 +52,8 @@ const Content = ({ selectedYoutuber }) => {
 
   const handleVote = async (contentId, action) => {
     try {
-      await axios.patch(`http://localhost:5000/api/contents/vote/${contentId}`, {
-        action,
+        await axios.patch(`${import.meta.env.VITE_API_URL}/contents/vote/${contentId}`, {
+            action,
       })
       fetchData() // Refresh updated votes
     } catch (err) {
